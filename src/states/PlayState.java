@@ -158,7 +158,7 @@ public class PlayState extends GameState {
             Random type = new Random();
             enemies.add(new Enemy(new Sprite(file, 64, 64), new Vector2f(1280 + randX.nextInt(700), randY.nextInt(600)), 128, hitpoints, type.nextInt(4), level));
         }
-        
+
     }
 
     @Override //obsolete

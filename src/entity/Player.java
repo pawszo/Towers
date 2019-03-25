@@ -132,6 +132,7 @@ public class Player extends Entity {
     public void update() {
         super.update();
         move();
+
         if (!GameStateManager.menuOn) {
             pos.x += dx;
             pos.y += dy;

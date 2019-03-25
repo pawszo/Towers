@@ -7,7 +7,7 @@ import util.Vector2f;
 
 import java.awt.*;
 
-public class Enemy extends Entity{
+public class Enemy extends Entity implements Comparable<Enemy>{
 
     public int type;
 
@@ -49,5 +49,16 @@ public class Enemy extends Entity{
         else if(type == 1) left = true;
         else if(type == 2) down = true;
         else right = true;
+    }
+
+    @Override
+    public String toString() {
+        String enemName = getPoint().getY() + "";
+        return enemName;
+    }
+
+    @Override
+    public int compareTo(Enemy o) {
+        return this.toString().compareTo(o.toString());
     }
 }

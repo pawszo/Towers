@@ -1,15 +1,18 @@
 package game;
 
+import util.KeyHandler;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Window extends JFrame {
+public class Window extends JFrame{
 
     private GamePanel gamePanel;
     private MenuPanel menuPanel;
@@ -29,6 +32,7 @@ public class Window extends JFrame {
         setTitle("Towers v1");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
+
         menuPanel = new MenuPanel(dim,this);
         mainPanel = new JPanel(new CardLayout());
         mainPanel.add(menuPanel, MENUPANEL);
@@ -51,6 +55,7 @@ public class Window extends JFrame {
         cl.show(mainPanel, GAMEPANEL);
         gamePanel.requestFocus();
     }
+
 
     public GamePanel getGamePanel() {
         return this.gamePanel;

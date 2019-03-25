@@ -64,7 +64,6 @@ public class PlayState extends GameState {
 
     public void update() {
 
-
         if (!GameStateManager.menuOn) {
             for (Tower1 t : resources) {
                 t.update();
@@ -152,13 +151,17 @@ public class PlayState extends GameState {
      * @param level
      */
     private void generateEnemies(String file, int level, int hitpoints) {
+        ArrayList<Enemy> tempEnem = new ArrayList<>();
         for (int i = 0; i < (level * 2) + 10; i++) {
             Random randX = new Random();
             Random randY = new Random();
             Random type = new Random();
-            enemies.add(new Enemy(new Sprite(file, 64, 64), new Vector2f(1280 + randX.nextInt(700), randY.nextInt(600)), 128, hitpoints, type.nextInt(4), level));
+            enemies.add(new Enemy(new Sprite(file, 64, 64),
+                    new Vector2f(1280 + randX.nextInt(700), randY.nextInt(600)), 128, hitpoints, type.nextInt(4), level));
+            System.out.println(enemies.get(i));
         }
 
+        Collections.sort(enemies);
     }
 
     @Override //obsolete

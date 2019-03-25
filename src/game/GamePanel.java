@@ -30,25 +30,24 @@ public class GamePanel extends JPanel implements Runnable {
     private Image img;
 
 
-
     private GameStateManager gsm;
 
     public GamePanel() {
         super();
     }
+
     public GamePanel(Dimension dim, Window frame) {
         this.frame = frame;
         try {
             img = ImageIO.read(new File("/home/nitropawel/workspace/Towers/res/sprite/background.png"));
-        } catch(IOException e) {}
+        } catch (IOException e) {
+        }
         this.width = (int) dim.getWidth();
         this.height = (int) dim.getHeight();
         setPreferredSize(new Dimension(width, height));
         setFocusable(true);
         requestFocus();
     }
-
-
 
 
     public void init() {
@@ -164,6 +163,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 
     }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

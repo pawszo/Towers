@@ -3,6 +3,7 @@ package entity;
 import java.awt.Graphics2D;
 import java.util.Iterator;
 
+import game.Window;
 import graphics.Sprite;
 import states.GameState;
 import states.GameStateManager;
@@ -10,6 +11,8 @@ import states.PlayState;
 import util.KeyHandler;
 import util.MouseHandler;
 import util.Vector2f;
+
+import javax.swing.*;
 
 public class Player extends Entity {
 
@@ -19,8 +22,9 @@ public class Player extends Entity {
     private long altLimiter; // sets a delay to element shifting
     public boolean enterLimiter; // enables to enter only once per level
     private long bspaceLimiter;
+    private Window frame;
 
-    public Player(Sprite sprite, Vector2f startPosition, int size, int hitpoints) {
+    public Player(Window frame, Sprite sprite, Vector2f startPosition, int size, int hitpoints) {
         super(sprite, startPosition, size, hitpoints);
         super.setSpeed(4f);
     }
@@ -128,7 +132,9 @@ public class Player extends Entity {
         }
         if (backspace) {
             if ((System.currentTimeMillis() - bspaceLimiter) > 200) {
-                if (!GameStateManager.menuOn) GameStateManager.menuOn = true;
+                if (!GameStateManager.menuOn) {
+                    GameStateManager.menuOn = true;
+                }
                 else {
                     GameStateManager.menuOn = false;
                 }

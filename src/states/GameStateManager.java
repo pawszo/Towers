@@ -4,11 +4,14 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import game.GamePanel;
+import game.Window;
 import util.KeyHandler;
 import util.MouseHandler;
 import util.Vector2f;
 
 public class GameStateManager {
+
+    public static int SCORE = 0;
 
     private ArrayList<GameState> states;
 
@@ -21,10 +24,12 @@ public class GameStateManager {
     public PlayState ps;
     public MenuState ms;
     private int level;
+    private Window frame;
 
-    public GameStateManager() {
+    public GameStateManager(Window frame) {
+        this.frame = frame;
         level = 1;
-        ps = new PlayState(this, level);
+        ps = new PlayState(this, level, frame);
       //  ms = new MenuState(this);
         map = new Vector2f(GamePanel.width, GamePanel.height);
         Vector2f.setWorldVar(map.x, map.y);
@@ -51,7 +56,7 @@ public class GameStateManager {
 
     public void addAndPop(int state) {
         states.remove(0);
-        ps = new PlayState(this, level);
+        ps = new PlayState(this, level, frame);
         add(state);
     }
 

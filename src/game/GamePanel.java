@@ -23,16 +23,20 @@ public class GamePanel extends JPanel implements Runnable {
     private boolean running = false;
     private MouseHandler mouse;
     private KeyHandler key;
+    private Window frame;
 
 
 
     private GameStateManager gsm;
 
-    public GamePanel(int width, int height) {
-        //this.setLayout(new BorderLayout());
+    public GamePanel() {
+        super();
+    }
+    public GamePanel(Dimension dim, Window frame) {
+        this.frame = frame;
 
-        this.width = width;
-        this.height = height;
+        this.width = (int) dim.getWidth();
+        this.height = (int) dim.getHeight();
         setPreferredSize(new Dimension(width, height));
         setFocusable(true);
         requestFocus();
@@ -50,7 +54,7 @@ public class GamePanel extends JPanel implements Runnable {
         mouse = new MouseHandler(this);
         key = new KeyHandler(this);
 
-        gsm = new GameStateManager();
+        gsm = new GameStateManager(frame);
     }
 
     public void run() {
@@ -116,6 +120,10 @@ public class GamePanel extends JPanel implements Runnable {
                 now = System.nanoTime();
             }
         }
+    }
+
+    public void stopRender() {
+        thread.suspend();
     }
 
     public void addNotify() {

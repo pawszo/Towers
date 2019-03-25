@@ -7,6 +7,7 @@ import java.util.Random;
 
 import entity.Enemy;
 import entity.Missiles;
+import game.Window;
 import graphics.Sprite;
 import util.KeyHandler;
 import util.MouseHandler;
@@ -35,12 +36,14 @@ public class PlayState extends GameState {
     private ArrayList<Vector2f> towerPosArr = new ArrayList<Vector2f>(0);
     private boolean win;
     private int enemyCountDown;
+    private Window frame;
 
-    public PlayState(GameStateManager gsm, int level) {
+    public PlayState(GameStateManager gsm, int level, Window frame) {
         super(gsm);
+        this.frame = frame;
         this.level = level;
         this.towerCounter = level + 3;
-        player = new Player(new Sprite("sprite/sprite.png", 64, 64), new Vector2f(50, 350), 128, 1);
+        player = new Player(frame, new Sprite("sprite/sprite.png", 64, 64), new Vector2f(50, 350), 128, 1);
         generateEnemies("sprite/enemy.png", level, (level + 10) * 10);
         enemyCountDown = level*2 + 10;
         generateElementArray();
@@ -64,9 +67,10 @@ public class PlayState extends GameState {
             }
             for (Enemy e : enemies) e.update();
             for (int i = 0; i < deadEnemies.size(); i++) {
-                System.out.println("Enemy " + deadEnemies.get(i).toString() + " DIES. e.countdown = " + enemyCountDown);
+               // System.out.println("Enemy " + deadEnemies.get(i).toString() + " DIES. e.countdown = " + enemyCountDown);
                 enemies.remove(deadEnemies.get(i));
                 enemyCountDown--;
+                System.out.println(++GameStateManager.SCORE);
 
 
             }
@@ -187,6 +191,13 @@ public class PlayState extends GameState {
             e.input();
             if (e.getHitpoints() <= 0) {
                 e.die = true;
+            }
+            if (e.getPoint().getX() < -50) {
+
+                frame.getGameoverPanel().setScore(GameStateManager.SCORE);
+                frame.getCl().show(frame.getMainPanel(), "GAMEOVERPANEL");
+                frame.getGamePanel().stopRender();
+
             }
         }
     }

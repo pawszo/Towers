@@ -1,0 +1,5 @@
+1. Download Towers.jar
+2. open CMD (Windows) or Terminal (linux)
+3. Copy location of the file in your file system
+4. In command prompt type> CD your_file_location
+5. type> java -jar Towers.jar

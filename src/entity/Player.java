@@ -23,10 +23,13 @@ public class Player extends Entity {
     public boolean enterLimiter; // enables to enter only once per level
     private long bspaceLimiter;
     private Window frame;
+    private PlayState playState;
 
-    public Player(Window frame, Sprite sprite, Vector2f startPosition, int size, int hitpoints) {
+    public Player(PlayState playState, Window frame, Sprite sprite, Vector2f startPosition, int size, int hitpoints) {
         super(sprite, startPosition, size, hitpoints);
         super.setSpeed(4f);
+        this.playState = playState;
+
     }
 
     public void move() {
@@ -107,24 +110,6 @@ public class Player extends Entity {
                 } else {
                     PlayState.element = 0;
                 }
-
-          //      System.out.println("SWITCHING ELEMENT: " + PlayState.element);
-                System.out.print("Element: ");
-                switch (PlayState.element) {
-                    case 0:
-                        System.out.println("ENERGY");
-                        break;
-                    case 1:
-                        System.out.println("FIRE");
-                        break;
-                    case 2:
-                        System.out.println("ICE");
-                        break;
-                    default:
-                        System.out.println("EARTH");
-                        break;
-                }
-
                 this.altLimiter = System.currentTimeMillis();
 
             }

@@ -1,9 +1,7 @@
 package states;
 
 import java.awt.Graphics2D;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Random;
+import java.util.*;
 
 import entity.Enemy;
 import entity.Missiles;
@@ -14,8 +12,6 @@ import util.MouseHandler;
 import util.Vector2f;
 import entity.Player;
 import entity.Tower1;
-
-import java.util.ArrayList;
 
 public class PlayState extends GameState {
 
@@ -31,7 +27,7 @@ public class PlayState extends GameState {
     private Vector2f towerLoc;
     private Vector2f missileLoc;
     public static Vector2f aim;
-    public static ArrayList<Integer> elements= new ArrayList<Integer>(4);
+    public static ArrayList<Integer> elements = new ArrayList<Integer>(4);
     public static int element;
     private ArrayList<Vector2f> towerPosArr = new ArrayList<Vector2f>(0);
     private boolean win;
@@ -43,31 +39,39 @@ public class PlayState extends GameState {
         this.frame = frame;
         this.level = level;
         this.towerCounter = level + 3;
-        player = new Player(frame, new Sprite("sprite/sprite.png", 64, 64), new Vector2f(50, 350), 128, 1);
+        player = new Player(this, frame, new Sprite("sprite/sprite.png", 64, 64), new Vector2f(50, 350), 128, 1);
         generateEnemies("sprite/enemy.png", level, (level + 10) * 10);
-        enemyCountDown = level*2 + 10;
+        enemyCountDown = level * 2 + 10;
         generateElementArray();
     }
 
 
     public void setWin() {
 
-        if(enemyCountDown <= 0) {
+        if (enemyCountDown <= 0) {
             System.out.println("WIN");
             this.win = true;
         }
     }
-    public boolean getWin() { return win; }
+
+    public ArrayList<Tower1> getResources() {
+        return this.resources;
+    }
+
+    public boolean getWin() {
+        return win;
+    }
+
     public void update() {
 
 
-        if(!GameStateManager.menuOn) {
+        if (!GameStateManager.menuOn) {
             for (Tower1 t : resources) {
                 t.update();
             }
             for (Enemy e : enemies) e.update();
             for (int i = 0; i < deadEnemies.size(); i++) {
-               // System.out.println("Enemy " + deadEnemies.get(i).toString() + " DIES. e.countdown = " + enemyCountDown);
+                // System.out.println("Enemy " + deadEnemies.get(i).toString() + " DIES. e.countdown = " + enemyCountDown);
                 enemies.remove(deadEnemies.get(i));
                 enemyCountDown--;
                 System.out.println(++GameStateManager.SCORE);
@@ -78,7 +82,7 @@ public class PlayState extends GameState {
             for (Missiles m : missiles) {
                 m.update();
             }
-            if(!player.enterLimiter) towerPlacing();
+            if (!player.enterLimiter) towerPlacing();
         }
 
         player.update();
@@ -93,6 +97,7 @@ public class PlayState extends GameState {
     public void render(Graphics2D g) {
         for (Tower1 t : resources) {
             t.render(g);
+
         }
         battle(g);
     }
@@ -132,16 +137,16 @@ public class PlayState extends GameState {
             for (Missiles m : missiles) {
                 m.render(g);
             }
-            if(!GameStateManager.menuOn) missileSystem();
+            if (!GameStateManager.menuOn) missileSystem();
         }
     }
 
     /**
      * generate enemies
-     *  type 1: ENERGY
-     *  type 2: FIRE
-     *  type 3: ICE
-     *  type 4: EARTH
+     * type 1: ENERGY
+     * type 2: FIRE
+     * type 3: ICE
+     * type 4: EARTH
      *
      * @param file
      * @param level
@@ -153,8 +158,8 @@ public class PlayState extends GameState {
             Random type = new Random();
             enemies.add(new Enemy(new Sprite(file, 64, 64), new Vector2f(1280 + randX.nextInt(700), randY.nextInt(600)), 128, hitpoints, type.nextInt(4), level));
         }
+        
     }
-
 
     @Override //obsolete
     public void printInstructions(Graphics2D g) {
@@ -217,7 +222,9 @@ public class PlayState extends GameState {
         }
     }
 
-    /** When a missile collides with an enemy hitpoints (or negative hitpoints) are added to enemy's hp */
+    /**
+     * When a missile collides with an enemy hitpoints (or negative hitpoints) are added to enemy's hp
+     */
     private void collisionDetection(ArrayList<Enemy> enemies, ArrayList<Missiles> missiles) {
         for (Enemy e : enemies) {
             for (Missiles m : missiles) {
@@ -227,10 +234,11 @@ public class PlayState extends GameState {
                         m.getPoint().x + mSize > e.getPoint().x &&
                         m.getPoint().y < e.getPoint().y + eSize * 1.3 && /** 1.3 * eSize - adjusts the size due height greater then width in sprite image*/
                         m.getPoint().y + mSize > e.getPoint().y) {
-                    if(e.type == m.element) {
-                    e.addHitpoints(-m.power); }
+                    if (e.type == m.element) {
+                        e.addHitpoints(-m.power);
+                    }
                     m.renew = true;
-                    if(e.getHitpoints() <= 0) deadEnemies.add(e);
+                    if (e.getHitpoints() <= 0) deadEnemies.add(e);
 
                 }
             }
@@ -238,7 +246,9 @@ public class PlayState extends GameState {
 
     }
 
-    /** Use alt to switch element of missiles. This void populates elements array which is iterated in Player.move() */
+    /**
+     * Use alt to switch element of missiles. This void populates elements array which is iterated in Player.move()
+     */
     private void generateElementArray() {
         PlayState.elements.add(Integer.valueOf(0));
         PlayState.elements.add(Integer.valueOf(1));

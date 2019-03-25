@@ -3,7 +3,10 @@ package game;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import util.KeyHandler;
@@ -24,6 +27,7 @@ public class GamePanel extends JPanel implements Runnable {
     private MouseHandler mouse;
     private KeyHandler key;
     private Window frame;
+    private Image img;
 
 
 
@@ -34,7 +38,9 @@ public class GamePanel extends JPanel implements Runnable {
     }
     public GamePanel(Dimension dim, Window frame) {
         this.frame = frame;
-
+        try {
+            img = ImageIO.read(new File("/home/nitropawel/workspace/Towers/res/sprite/background.png"));
+        } catch(IOException e) {}
         this.width = (int) dim.getWidth();
         this.height = (int) dim.getHeight();
         setPreferredSize(new Dimension(width, height));
@@ -145,8 +151,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void render() {
         if (g != null) {
-            g.setColor(new Color(200, 200, 244));
-            g.fillRect(0, 0, width, height);
+            paintComponent(g);
             gsm.render(g);
         }
 
@@ -157,6 +162,12 @@ public class GamePanel extends JPanel implements Runnable {
         g2.drawImage(image, 0, 0, width, height, null);
         g2.dispose();
 
+
+    }
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(img, 0, 0, this);
 
     }
 

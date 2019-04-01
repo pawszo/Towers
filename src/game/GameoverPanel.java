@@ -1,5 +1,7 @@
 package game;
 
+import states.GameStateManager;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -58,6 +60,7 @@ public class GameoverPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == goToMain) {
+            GameStateManager.SCORE = 0;
             frame.getCl().show(frame.getMainPanel(), Window.MENUPANEL);
         }
     }
